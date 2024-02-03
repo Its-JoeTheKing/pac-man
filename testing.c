@@ -13,7 +13,6 @@ void	xpm_to_img(t_info *infos)
 }
 int	move(int key, t_info *infos)
 {
-	printf("%d\n", infos->collected);
 	if (key == 2 || key == 1 || key == 13 || key == 0)
 		animation_manage(infos);
 	if (key == 2 && infos->map.map[infos->hero.y / 32][infos->hero.x / 32 + 1] != '1')
@@ -27,6 +26,7 @@ int	move(int key, t_info *infos)
 	if (key == 53)
 	{
 		mlx_destroy_window(infos->mlx, infos->win);
+		system("leaks so_long");
 		exit (0);
 	}
 	return (0);
