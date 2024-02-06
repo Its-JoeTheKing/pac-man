@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   so_long.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aerrfig <aerrfig@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/04 15:17:40 by aerrfig           #+#    #+#             */
+/*   Updated: 2024/02/04 16:08:14 by aerrfig          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 void	xpm_to_img(t_info *infos)
 {
@@ -63,14 +75,8 @@ void	draw_map(t_info *ifs)
 
 int	replay(t_info *info)
 {
+	static int door_opened = 0;
 	static size_t i = 0;
-	if (info->collected == info->collectible)
-		mlx_put_image_to_window(info->mlx, info->win, info->door_op, info->door_x, info->door_y);
-	if (info->collected == info->collectible && info->hero.x == info->door_x && info->hero.y == info->door_y)
-	{
-		mlx_destroy_window(info->mlx, info->win);
-		exit (0);
-	}
 	if (i == 1500)
 	{
 		info->hero.anime += 1;
@@ -87,6 +93,16 @@ int	replay(t_info *info)
 		i = 0;
 	}
 	i++;
+	if (info->collected == info->collectible && !door_opened)
+	{
+		mlx_put_image_to_window(info->mlx, info->win, info->door_op, info->door_x, info->door_y);
+		door_opened = 1;
+	}
+	if (info->collected == info->collectible && info->hero.x == info->door_x && info->hero.y == info->door_y)
+	{
+		mlx_destroy_window(info->mlx, info->win);
+		exit (0);
+	}
 	return (0);
 }
 
@@ -130,7 +146,7 @@ int	main(int argc, char **argv)
 		return (0);
 	close(fd);
 	xpm_to_img(&infos);
-	infos.win = mlx_new_window(infos.mlx, (infos.map.width - 1) * 32, infos.map.height * 32, "Hello");
+	infos.win = mlx_new_window(infos.mlx, (infos.map.width - 1) * 32, infos.map.height * 32, "so_long");
 	fd = open(argv[1], O_RDONLY);
 	map_to_array(fd, &infos);
 	close(fd);

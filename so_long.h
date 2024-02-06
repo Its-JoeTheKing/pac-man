@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   so_long.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aerrfig <aerrfig@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/04 15:17:49 by aerrfig           #+#    #+#             */
+/*   Updated: 2024/02/06 18:08:15 by aerrfig          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef SO_LONG_H
 #define	SO_LONG_H
 
@@ -17,7 +29,6 @@ typedef struct s_map
 	int		width;
 	char	valid;
 } t_map;
-
 
 typedef	struct s_info
 {
@@ -39,6 +50,12 @@ typedef	struct s_info
 	t_map	map;
 }	t_info;
 
+typedef	struct s_point
+{
+	int		x;
+	int		y;
+}	t_point;
+
 #include "ff/get_next_line.h"
 #include <unistd.h>
 #include <stdlib.h>
@@ -54,5 +71,8 @@ void	animation_manage(t_info *infos);
 int		get_map(t_info *map, int fd);
 int		map_to_array(int fd, t_info *infs);
 void	check_map(t_info *infs);
+void	aff_map(char **map, t_point size);
+char	*ft_strdup(const char *s1);
+void	floodmap(char **map, t_point player, t_point size, t_point enemy);
 
 #endif
