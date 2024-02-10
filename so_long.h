@@ -6,12 +6,25 @@
 /*   By: aerrfig <aerrfig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 15:17:49 by aerrfig           #+#    #+#             */
-/*   Updated: 2024/02/06 18:08:15 by aerrfig          ###   ########.fr       */
+/*   Updated: 2024/02/07 11:54:25 by aerrfig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 #define	SO_LONG_H
+
+typedef	struct s_point
+{
+	int		x;
+	int		y;
+}	t_point;
+typedef struct s_map
+{
+	char	**map;
+	int		height;
+	int		width;
+	char	valid;
+} t_map;
 
 typedef	struct s_hero
 {
@@ -22,13 +35,15 @@ typedef	struct s_hero
 	char	pos;
 }	t_hero;
 
-typedef struct s_map
+typedef struct s_enemy
 {
-	char	**map;
-	int		height;
-	int		width;
-	char	valid;
-} t_map;
+	void	*img;
+	t_map	map;
+	t_point	*road;
+	int		x;
+	int		y;
+	int		anime;
+} t_enemy;
 
 typedef	struct s_info
 {
@@ -37,6 +52,7 @@ typedef	struct s_info
 	int		height;
 	int		width;
 	t_hero	hero;
+	t_enemy	enemy;
 	void	*floor;
 	void	*wall;
 	void	*exit;
@@ -45,16 +61,9 @@ typedef	struct s_info
 	void	*door_op;
 	int		collectible;
 	int		collected;
-	int		door_x;
-	int		door_y;
+	t_point	door_pos;
 	t_map	map;
 }	t_info;
-
-typedef	struct s_point
-{
-	int		x;
-	int		y;
-}	t_point;
 
 #include "ff/get_next_line.h"
 #include <unistd.h>

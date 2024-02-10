@@ -6,7 +6,7 @@
 /*   By: aerrfig <aerrfig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 16:46:25 by aerrfig           #+#    #+#             */
-/*   Updated: 2024/02/06 17:48:43 by aerrfig          ###   ########.fr       */
+/*   Updated: 2024/02/10 13:02:18 by aerrfig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	aff_map(char **map, t_point size)
 	{
 		i_dice = -1;
 		while (++i_dice < size.x)
-			printf ("%c ", map[i_row][i_dice]);
-		printf("\n");
+			printf ("%c", map[i_row][i_dice]);
 	}
 }

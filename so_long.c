@@ -6,7 +6,7 @@
 /*   By: aerrfig <aerrfig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 15:17:40 by aerrfig           #+#    #+#             */
-/*   Updated: 2024/02/04 16:08:14 by aerrfig          ###   ########.fr       */
+/*   Updated: 2024/02/10 13:02:40 by aerrfig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ void	draw_map(t_info *ifs)
 			}
 			if (ifs->map.map[i][j] == 'E')
 			{
-				ifs->door_x = j*32;
-				ifs->door_y = i*32;
+				ifs->door_pos.x = j*32;
+				ifs->door_pos.y = i*32;
 				mlx_put_image_to_window(ifs->mlx, ifs->win, ifs->door, j*32, i*32);
 			}
 		}
@@ -95,10 +95,10 @@ int	replay(t_info *info)
 	i++;
 	if (info->collected == info->collectible && !door_opened)
 	{
-		mlx_put_image_to_window(info->mlx, info->win, info->door_op, info->door_x, info->door_y);
+		mlx_put_image_to_window(info->mlx, info->win, info->door_op, info->door_pos.x, info->door_pos.y);
 		door_opened = 1;
 	}
-	if (info->collected == info->collectible && info->hero.x == info->door_x && info->hero.y == info->door_y)
+	if (info->collected == info->collectible && info->hero.x == info->door_pos.x && info->hero.y == info->door_pos.y)
 	{
 		mlx_destroy_window(info->mlx, info->win);
 		exit (0);
@@ -128,6 +128,52 @@ void	get_player_pos(t_info *infos)
 	}
 }
 
+void	enemy_map(t_info *infos)
+{
+	int i = -1;
+	int j = 0;
+
+	infos->enemy.map.map = (char **)malloc(sizeof(char *) * infos->map.height);
+	infos->enemy.map.height = infos->map.height;
+	infos->enemy.map.width = infos->map.width;
+	while (++i < infos->map.height)
+	{
+		j = -1;
+		infos->enemy.map.map[i] = (char *)malloc(sizeof(char) * infos->map.width + 1);
+		while (++j < infos->map.width)
+		{
+			infos->enemy.map.map[i][j] = infos->map.map[i][j];
+			if(infos->map.map[i][j] == '1')
+				infos->enemy.map.map[i][j] = 'W';
+			if(infos->map.map[i][j] == 'C')
+				infos->enemy.map.map[i][j] = '0';
+		}
+		infos->enemy.map.map[i][j] = 0;
+	}
+}
+
+void	mapp_checker(t_info *infos, char *file)
+{
+	int	fd;
+
+	fd = open(file, O_RDONLY);
+	if (fd <= 0)
+		exit(0);
+	get_map(infos, fd);
+	if (!infos->map.valid)
+		return ;
+	close(fd);
+	fd = open(file, O_RDONLY);
+	map_to_array(fd, infos);
+	close(fd);
+	check_map(infos);
+	if (!infos->map.valid)
+		return ;
+	get_player_pos(infos);
+	enemy_map(infos);
+	aff_map(infos->enemy.map.map, (t_point){infos->map.width, infos->map.height});	
+}
+
 int	main(int argc, char **argv)
 {
 	t_info	infos;
@@ -135,25 +181,14 @@ int	main(int argc, char **argv)
 
 	if (argc != 2)
 		return (0);
+	mapp_checker(&infos, argv[1]);
+	if (!infos.map.valid)
+		return (0);
 	infos.mlx = mlx_init();
 	infos.hero.pos = 'r';
 	infos.hero.anime = 0;
-	fd = open(argv[1], O_RDONLY);
-	if (fd <= 0)
-		exit(0);
-	get_map(&infos, fd);
-	if (!infos.map.valid)
-		return (0);
-	close(fd);
 	xpm_to_img(&infos);
 	infos.win = mlx_new_window(infos.mlx, (infos.map.width - 1) * 32, infos.map.height * 32, "so_long");
-	fd = open(argv[1], O_RDONLY);
-	map_to_array(fd, &infos);
-	close(fd);
-	check_map(&infos);
-	if (!infos.map.valid)
-		return (0);
-	get_player_pos(&infos);
 	draw_map(&infos);
 	mlx_hook(infos.win, 2, 0, move, &infos);
 	mlx_loop_hook(infos.mlx, replay, &infos);
