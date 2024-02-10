@@ -81,6 +81,6 @@ void	check_map(t_info *infs)
 		}
 		i++;
 	}
-	if (c < 1 || e < 1 || p < 1)
+	if (c < 1 || e != 1 || p != 1)
 		infs->map.valid = 0;
 }

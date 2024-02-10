@@ -6,7 +6,7 @@
 /*   By: aerrfig <aerrfig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 15:17:40 by aerrfig           #+#    #+#             */
-/*   Updated: 2024/02/10 13:02:40 by aerrfig          ###   ########.fr       */
+/*   Updated: 2024/02/10 17:28:51 by aerrfig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,72 @@ void	xpm_to_img(t_info *infos)
 	infos->collect = mlx_xpm_file_to_image(infos->mlx, "./assets/coin.xpm", &width, &height);
 	infos->door = mlx_xpm_file_to_image(infos->mlx, "./assets/door.xpm", &width, &height);
 	infos->door_op = mlx_xpm_file_to_image(infos->mlx, "./assets/doorop.xpm", &width, &height);
+	infos->enemy.img = mlx_xpm_file_to_image(infos->mlx, "./assets/ghost/ghost.xpm", &width, &height);
+}
+
+void	enemy_map(t_info *infos)
+{
+	int i = -1;
+	int j = 0;
+
+	infos->enemy.map.map = (char **)malloc(sizeof(char *) * infos->map.height);
+	infos->enemy.map.height = infos->map.height;
+	infos->enemy.map.width = infos->map.width;
+	while (++i < infos->map.height)
+	{
+		j = -1;
+		infos->enemy.map.map[i] = (char *)malloc(sizeof(char) * infos->map.width + 1);
+		while (++j < infos->map.width)
+		{
+			infos->enemy.map.map[i][j] = infos->map.map[i][j];
+			if(infos->map.map[i][j] == '1')
+				infos->enemy.map.map[i][j] = 'W';
+			if(infos->map.map[i][j] == 'C')
+				infos->enemy.map.map[i][j] = '0';
+		}
+		infos->enemy.map.map[i][j] = 0;
+	}
+}
+
+void	enemy_map_destroy(t_info *infos)
+{
+	int i = -1;
+
+	while (++i < infos->map.height)
+		free(infos->enemy.map.map[i]);
+	free(infos->enemy.map.map);
 }
 int	move(int key, t_info *infos)
 {
 	if (key == 2 || key == 1 || key == 13 || key == 0)
+	{
 		animation_manage(infos);
+		int val = 0;
+		t_point s_enemy;
+		s_enemy.x = 1;
+		s_enemy.y = 1;
+		t_point s_player;
+		s_player.x = infos->hero.x / 32;
+		s_player.y = infos->hero.y / 32;
+		t_point size;
+		size.x = infos->map.width;
+		size.y = infos->map.height;
+		enemy_map_destroy(infos);
+		enemy_map(infos);
+		val = floodmap(infos->enemy.map.map, s_player, size, s_enemy);
+		aff_map(infos->enemy.map.map, size);
+		infos->enemy.road = get_road(infos->enemy.map.map, size, s_enemy, val);
+		int i = 0;
+		while (i < val)
+		{
+			mlx_put_image_to_window(infos->mlx, infos->win, infos->floor, infos->enemy.road[i].x * 32, infos->enemy.road[i].y * 32);
+			i++;
+			mlx_put_image_to_window(infos->mlx, infos->win, infos->enemy.img, infos->enemy.road[i].x * 32, infos->enemy.road[i].y * 32);
+			printf("road: %d %d\n", infos->enemy.road[i].x, infos->enemy.road[i].y);
+		}
+		infos->enemy.x = infos->enemy.road[i].x;
+		infos->enemy.y = infos->enemy.road[i].y;
+	}
 	if (key == 2 && infos->map.map[infos->hero.y / 32][infos->hero.x / 32 + 1] != '1')
 		put_img_right(infos, 0);
 	if (key == 0 && infos->map.map[infos->hero.y / 32][infos->hero.x / 32 - 1] != '1')
@@ -38,7 +99,7 @@ int	move(int key, t_info *infos)
 	if (key == 53)
 	{
 		mlx_destroy_window(infos->mlx, infos->win);
-		system("leaks so_long");
+		// system("leaks so_long");
 		exit (0);
 	}
 	return (0);
@@ -128,30 +189,6 @@ void	get_player_pos(t_info *infos)
 	}
 }
 
-void	enemy_map(t_info *infos)
-{
-	int i = -1;
-	int j = 0;
-
-	infos->enemy.map.map = (char **)malloc(sizeof(char *) * infos->map.height);
-	infos->enemy.map.height = infos->map.height;
-	infos->enemy.map.width = infos->map.width;
-	while (++i < infos->map.height)
-	{
-		j = -1;
-		infos->enemy.map.map[i] = (char *)malloc(sizeof(char) * infos->map.width + 1);
-		while (++j < infos->map.width)
-		{
-			infos->enemy.map.map[i][j] = infos->map.map[i][j];
-			if(infos->map.map[i][j] == '1')
-				infos->enemy.map.map[i][j] = 'W';
-			if(infos->map.map[i][j] == 'C')
-				infos->enemy.map.map[i][j] = '0';
-		}
-		infos->enemy.map.map[i][j] = 0;
-	}
-}
-
 void	mapp_checker(t_info *infos, char *file)
 {
 	int	fd;
@@ -170,8 +207,7 @@ void	mapp_checker(t_info *infos, char *file)
 	if (!infos->map.valid)
 		return ;
 	get_player_pos(infos);
-	enemy_map(infos);
-	aff_map(infos->enemy.map.map, (t_point){infos->map.width, infos->map.height});	
+	enemy_map(infos);	
 }
 
 int	main(int argc, char **argv)
@@ -190,6 +226,7 @@ int	main(int argc, char **argv)
 	xpm_to_img(&infos);
 	infos.win = mlx_new_window(infos.mlx, (infos.map.width - 1) * 32, infos.map.height * 32, "so_long");
 	draw_map(&infos);
+	mlx_put_image_to_window(infos.mlx, infos.win, infos.enemy.img, 32, 32);
 	mlx_hook(infos.win, 2, 0, move, &infos);
 	mlx_loop_hook(infos.mlx, replay, &infos);
 	mlx_loop(infos.mlx);

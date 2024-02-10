@@ -6,32 +6,37 @@
 /*   By: aerrfig <aerrfig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 16:48:33 by aerrfig           #+#    #+#             */
-/*   Updated: 2024/02/06 18:07:59 by aerrfig          ###   ########.fr       */
+/*   Updated: 2024/02/10 15:11:07 by aerrfig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../so_long.h"
-
+int	is_contains(char c)
+{
+	if (c != '0' && c != 'W' && c != 'E' && c != 'P')
+		return (1);
+	return (0);
+}
 int	check_is_surrounded(char **map, t_point enemy, t_point size)
 {
 	int is_surrounded;
 
 	is_surrounded = 0;
-	if (enemy.x + 1 < size.x && map[enemy.y][enemy.x + 1] != '0')
+	if (enemy.x + 1 < size.x && is_contains(map[enemy.y][enemy.x + 1]))
 		is_surrounded = 1;
-	if (enemy.x - 1 >= 0 && map[enemy.y][enemy.x - 1] != '0')
+	if (enemy.x - 1 >= 0 && is_contains(map[enemy.y][enemy.x - 1]))
 		is_surrounded = 1;
-	if (enemy.y + 1 < size.y && map[enemy.y + 1][enemy.x] != '0')
+	if (enemy.y + 1 < size.y && is_contains(map[enemy.y + 1][enemy.x]))
 		is_surrounded = 1;
-	if (enemy.y - 1 >= 0 && map[enemy.y - 1][enemy.x] != '0')
+	if (enemy.y - 1 >= 0 && is_contains(map[enemy.y - 1][enemy.x]))
 		is_surrounded = 1;
-	if (enemy.x + 1 < size.x && enemy.y + 1 < size.y && map[enemy.y + 1][enemy.x + 1] != '0')
+	if (enemy.x + 1 < size.x && enemy.y + 1 < size.y && is_contains(map[enemy.y + 1][enemy.x + 1]))
 		is_surrounded = 1;
-	if (enemy.x - 1 >= 0 && enemy.y - 1 >= 0 && map[enemy.y - 1][enemy.x - 1] != '0')
+	if (enemy.x - 1 >= 0 && enemy.y - 1 >= 0 && is_contains(map[enemy.y - 1][enemy.x - 1]))
 		is_surrounded = 1;
-	if (enemy.x + 1 < size.x && enemy.y - 1 >= 0 && map[enemy.y - 1][enemy.x + 1] != '0')
+	if (enemy.x + 1 < size.x && enemy.y - 1 >= 0 && is_contains(map[enemy.y - 1][enemy.x + 1]))
 		is_surrounded = 1;
-	if (enemy.x - 1 >= 0 && enemy.y + 1 < size.y && map[enemy.y + 1][enemy.x - 1] != '0')
+	if (enemy.x - 1 >= 0 && enemy.y + 1 < size.y && is_contains(map[enemy.y + 1][enemy.x - 1]))
 		is_surrounded = 1;
 	return (is_surrounded);
 }
@@ -84,7 +89,7 @@ void	init_val_2(char **map, t_point size, int val)
 		}
 	}
 }
-void	floodmap(char **map, t_point player, t_point size, t_point enemy)
+int	floodmap(char **map, t_point player, t_point size, t_point enemy)
 {
 	int	val;
 
@@ -92,4 +97,5 @@ void	floodmap(char **map, t_point player, t_point size, t_point enemy)
 	init_val(map, player, size, val++);
 	while (check_is_surrounded(map, enemy, size) == 0)
 		init_val_2(map, size ,val++);
+	return (val + 48);
 }
