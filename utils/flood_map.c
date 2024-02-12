@@ -6,7 +6,7 @@
 /*   By: aerrfig <aerrfig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 16:48:33 by aerrfig           #+#    #+#             */
-/*   Updated: 2024/02/10 15:11:07 by aerrfig          ###   ########.fr       */
+/*   Updated: 2024/02/10 17:49:47 by aerrfig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,6 @@ void	init_val(char **map, t_point player, t_point size, int val)
 		map[y - 1][x + 1] = val + 48;
 	if (x - 1 >= 0 && y + 1 < size.y && map[y + 1][x - 1] == '0')
 		map[y + 1][x - 1] = val + 48;
-	if (map[y][x + 1] == 'E' || map[y][x - 1] == 'E' || map[y + 1][x] == 'E' || map[y - 1][x] == 'E')
-		return ;
 }
 
 void	init_val_2(char **map, t_point size, int val)

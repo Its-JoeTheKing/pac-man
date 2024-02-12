@@ -6,7 +6,7 @@
 /*   By: aerrfig <aerrfig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 15:17:40 by aerrfig           #+#    #+#             */
-/*   Updated: 2024/02/10 17:28:51 by aerrfig          ###   ########.fr       */
+/*   Updated: 2024/02/12 11:57:30 by aerrfig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,15 @@ void	enemy_map(t_info *infos)
 	int i = -1;
 	int j = 0;
 
-	infos->enemy.map.map = (char **)malloc(sizeof(char *) * infos->map.height);
-	infos->enemy.map.height = infos->map.height;
-	infos->enemy.map.width = infos->map.width;
+	if (!infos->enemy.map.map[0])
+	{
+		infos->enemy.map.map = (char **)malloc(sizeof(char *) * infos->map.height);
+		while (++i < infos->map.height)
+			infos->enemy.map.map[i] = (char *)malloc(infos->map.width + 1);
+	}
 	while (++i < infos->map.height)
 	{
 		j = -1;
-		infos->enemy.map.map[i] = (char *)malloc(sizeof(char) * infos->map.width + 1);
 		while (++j < infos->map.width)
 		{
 			infos->enemy.map.map[i][j] = infos->map.map[i][j];
@@ -72,21 +74,18 @@ int	move(int key, t_info *infos)
 		t_point size;
 		size.x = infos->map.width;
 		size.y = infos->map.height;
-		enemy_map_destroy(infos);
 		enemy_map(infos);
 		val = floodmap(infos->enemy.map.map, s_player, size, s_enemy);
-		aff_map(infos->enemy.map.map, size);
 		infos->enemy.road = get_road(infos->enemy.map.map, size, s_enemy, val);
-		int i = 0;
-		while (i < val)
-		{
-			mlx_put_image_to_window(infos->mlx, infos->win, infos->floor, infos->enemy.road[i].x * 32, infos->enemy.road[i].y * 32);
-			i++;
-			mlx_put_image_to_window(infos->mlx, infos->win, infos->enemy.img, infos->enemy.road[i].x * 32, infos->enemy.road[i].y * 32);
-			printf("road: %d %d\n", infos->enemy.road[i].x, infos->enemy.road[i].y);
-		}
-		infos->enemy.x = infos->enemy.road[i].x;
-		infos->enemy.y = infos->enemy.road[i].y;
+		// int i = 0;
+		// while (i < val)
+		// {
+		// 	mlx_put_image_to_window(infos->mlx, infos->win, infos->enemy.img, infos->enemy.road[i].x * 32, infos->enemy.road[i].y * 32);
+		// 	i++;
+		// 	printf("road: %d %d\n", infos->enemy.road[i].x, infos->enemy.road[i].y);
+		// }
+		// infos->enemy.x = infos->enemy.road[i].x;
+		// infos->enemy.y = infos->enemy.road[i].y;
 	}
 	if (key == 2 && infos->map.map[infos->hero.y / 32][infos->hero.x / 32 + 1] != '1')
 		put_img_right(infos, 0);
@@ -98,8 +97,9 @@ int	move(int key, t_info *infos)
 		put_img_top(infos, 0);
 	if (key == 53)
 	{
+		enemy_map_destroy(infos);
 		mlx_destroy_window(infos->mlx, infos->win);
-		// system("leaks so_long");
+		system("leaks so_long");
 		exit (0);
 	}
 	return (0);
