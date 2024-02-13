@@ -6,7 +6,7 @@
 /*   By: aerrfig <aerrfig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 15:17:49 by aerrfig           #+#    #+#             */
-/*   Updated: 2024/02/10 14:32:18 by aerrfig          ###   ########.fr       */
+/*   Updated: 2024/02/13 17:34:05 by aerrfig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ typedef struct s_enemy
 	void	*img;
 	t_map	map;
 	t_point	*road;
+	int		moves;
+	int		road_len;
 	int		x;
 	int		y;
 	int		anime;

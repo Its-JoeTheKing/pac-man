@@ -6,7 +6,7 @@
 /*   By: aerrfig <aerrfig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 15:17:12 by aerrfig           #+#    #+#             */
-/*   Updated: 2024/02/12 11:59:42 by aerrfig          ###   ########.fr       */
+/*   Updated: 2024/02/13 11:46:43 by aerrfig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,6 @@ t_point get_next_pos(char **map, t_point size, t_point pont, int val)
 	pos.x -= (pos.x - 1 >= 0 && map[pos.y][pos.x - 1] == val) * 1;
 	pos.y += (pos.y + 1 < size.y && map[pos.y + 1][pos.x] == val) * 1;
 	pos.y -= (pos.y - 1 >= 0 && map[pos.y - 1][pos.x] == val) * 1;
-	if (map[pos.y][pos.x] == val)
-		return (pos);
 	check_corners(map, &pos, size, val);
 	return (pos);
 }
