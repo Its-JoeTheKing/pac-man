@@ -6,7 +6,7 @@
 /*   By: aerrfig <aerrfig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 15:17:40 by aerrfig           #+#    #+#             */
-/*   Updated: 2024/02/13 17:50:26 by aerrfig          ###   ########.fr       */
+/*   Updated: 2024/02/14 10:52:20 by aerrfig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,6 @@ int	replay(t_info *info)
 			info->enemy.y = info->enemy.road[j].y;
 			mlx_put_image_to_window(info->mlx, info->win, info->floor, info->enemy.road[j - 1].x * 32, info->enemy.road[j - 1].y * 32);
 			mlx_put_image_to_window(info->mlx, info->win, info->enemy.img, info->enemy.road[j].x * 32, info->enemy.road[j].y * 32);
-			usleep(1000);
 		}
 		free(info->enemy.road);
 		i = 0;

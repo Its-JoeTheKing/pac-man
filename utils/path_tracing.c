@@ -6,7 +6,7 @@
 /*   By: aerrfig <aerrfig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 15:17:12 by aerrfig           #+#    #+#             */
-/*   Updated: 2024/02/13 11:46:43 by aerrfig          ###   ########.fr       */
+/*   Updated: 2024/02/14 11:06:31 by aerrfig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,35 @@
 
 void	check_corners(char **map, t_point *pos, t_point size, int val)
 {
-	
-	if (pos->x + 1 < size.x && pos->y + 1 < size.y && map[pos->y + 1][pos->x + 1] == val)
+	if (pos->x + 1 < size.x && pos->y + 1 < size.y
+		&& map[pos->y + 1][pos->x + 1] == val)
 	{
 		pos->x++;
 		pos->y++;
 	}
-	if (pos->x - 1 >= 0 && pos->y - 1 >= 0 && map[pos->y - 1][pos->x - 1] == val)
+	if (pos->x - 1 >= 0 && pos->y - 1 >= 0
+		&& map[pos->y - 1][pos->x - 1] == val)
 	{
 		pos->x--;
 		pos->y--;
 	}
-	if (pos->x + 1 < size.x && pos->y - 1 >= 0 && map[pos->y - 1][pos->x + 1] == val)
+	if (pos->x + 1 < size.x && pos->y - 1 >= 0
+		&& map[pos->y - 1][pos->x + 1] == val)
 	{
 		pos->x++;
 		pos->y--;
 	}
-	if (pos->x - 1 >= 0 && pos->y + 1 < size.y && map[pos->y + 1][pos->x - 1] == val)
+	if (pos->x - 1 >= 0 && pos->y + 1 < size.y
+		&& map[pos->y + 1][pos->x - 1] == val)
 	{
 		pos->x--;
 		pos->y++;
 	}
 }
 
-t_point get_next_pos(char **map, t_point size, t_point pont, int val)
+t_point	get_next_pos(char **map, t_point size, t_point pont, int val)
 {
-	t_point pos;
+	t_point	pos;
 
 	pos.y = pont.y;
 	pos.x = pont.x;
