@@ -6,7 +6,7 @@
 /*   By: aerrfig <aerrfig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 15:17:40 by aerrfig           #+#    #+#             */
-/*   Updated: 2024/02/17 16:04:54 by aerrfig          ###   ########.fr       */
+/*   Updated: 2024/02/17 16:12:53 by aerrfig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ int	replay(t_info *info)
 {
 	static int door_opened = 0;
 	static size_t i = 0;
-	if (i == 1500)
+	if (i == 2000)
 	{
 		info->hero.anime += 1;
 		if (info->hero.anime == 5)
