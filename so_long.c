@@ -6,7 +6,7 @@
 /*   By: aerrfig <aerrfig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 15:17:40 by aerrfig           #+#    #+#             */
-/*   Updated: 2024/02/14 10:52:20 by aerrfig          ###   ########.fr       */
+/*   Updated: 2024/02/17 16:04:54 by aerrfig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,9 @@ int	move(int key, t_info *infos)
 		size.y = infos->map.height;
 		enemy_map(infos);
 		infos->enemy.road_len = floodmap(infos->enemy.map.map, s_player, size, s_enemy);
+		infos->enemy.moves = 2;
+		mlx_put_image_to_window(infos->mlx, infos->win, infos->enemy.img, infos->enemy.x * 32, infos->enemy.y * 32);
+		mlx_put_image_to_window(infos->mlx, infos->win, infos->floor, infos->enemy.road[infos->enemy.moves - 1].x * 32, infos->enemy.road[infos->enemy.moves - 1].y * 32);
 	}
 	if (key == 2 && infos->map.map[infos->hero.y / 32][infos->hero.x / 32 + 1] != '1')
 		put_img_right(infos, 0);
@@ -147,15 +150,17 @@ int	replay(t_info *info)
 		s_enemy.x = info->enemy.x;
 		s_enemy.y = info->enemy.y;
 		info->enemy.road = get_road(info->enemy.map.map, size, s_enemy, info->enemy.road_len);
-		int j = 0;
-		while (++j < info->enemy.road_len)
-		{
-			info->enemy.x = info->enemy.road[j].x;
-			info->enemy.y = info->enemy.road[j].y;
-			mlx_put_image_to_window(info->mlx, info->win, info->floor, info->enemy.road[j - 1].x * 32, info->enemy.road[j - 1].y * 32);
-			mlx_put_image_to_window(info->mlx, info->win, info->enemy.img, info->enemy.road[j].x * 32, info->enemy.road[j].y * 32);
-		}
+		info->enemy.x = info->enemy.road[info->enemy.moves].x;
+		info->enemy.y = info->enemy.road[info->enemy.moves].y;
+		mlx_put_image_to_window(info->mlx, info->win, info->enemy.img, info->enemy.x * 32, info->enemy.y * 32);
+		mlx_put_image_to_window(info->mlx, info->win, info->floor, info->enemy.road[info->enemy.moves - 1].x * 32, info->enemy.road[info->enemy.moves - 1].y * 32);
+		info->enemy.moves++;
 		free(info->enemy.road);
+		if (info->enemy.x == info->hero.x / 32 && info->enemy.y == info->hero.y / 32)
+		{
+			mlx_destroy_window(info->mlx, info->win);
+			exit (0);
+		}
 		i = 0;
 	}
 	i++;
@@ -234,6 +239,18 @@ int	main(int argc, char **argv)
 	infos.win = mlx_new_window(infos.mlx, (infos.map.width - 1) * 32, infos.map.height * 32, "so_long");
 	draw_map(&infos);
 	mlx_put_image_to_window(infos.mlx, infos.win, infos.enemy.img, 32, 32);
+	t_point s_enemy;
+	s_enemy.x = infos.enemy.x;
+	s_enemy.y = infos.enemy.y;
+	t_point s_player;
+	s_player.x = infos.hero.x / 32;
+	s_player.y = infos.hero.y / 32;
+	t_point size;
+	size.x = infos.map.width;
+	size.y = infos.map.height;
+	enemy_map(&infos);
+	infos.enemy.road_len = floodmap(infos.enemy.map.map, s_player, size, s_enemy);
+	infos.enemy.moves = 0;
 	mlx_hook(infos.win, 2, 0, move, &infos);
 	mlx_loop_hook(infos.mlx, replay, &infos);
 	mlx_loop(infos.mlx);
