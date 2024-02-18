@@ -6,7 +6,7 @@
 /*   By: aerrfig <aerrfig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 15:17:40 by aerrfig           #+#    #+#             */
-/*   Updated: 2024/02/17 16:12:53 by aerrfig          ###   ########.fr       */
+/*   Updated: 2024/02/18 13:56:52 by aerrfig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,6 @@ int	move(int key, t_info *infos)
 		enemy_map(infos);
 		infos->enemy.road_len = floodmap(infos->enemy.map.map, s_player, size, s_enemy);
 		infos->enemy.moves = 2;
-		mlx_put_image_to_window(infos->mlx, infos->win, infos->enemy.img, infos->enemy.x * 32, infos->enemy.y * 32);
-		mlx_put_image_to_window(infos->mlx, infos->win, infos->floor, infos->enemy.road[infos->enemy.moves - 1].x * 32, infos->enemy.road[infos->enemy.moves - 1].y * 32);
 	}
 	if (key == 2 && infos->map.map[infos->hero.y / 32][infos->hero.x / 32 + 1] != '1')
 		put_img_right(infos, 0);
@@ -130,7 +128,7 @@ int	replay(t_info *info)
 {
 	static int door_opened = 0;
 	static size_t i = 0;
-	if (i == 2000)
+	if (i == 2500)
 	{
 		info->hero.anime += 1;
 		if (info->hero.anime == 5)
@@ -152,8 +150,8 @@ int	replay(t_info *info)
 		info->enemy.road = get_road(info->enemy.map.map, size, s_enemy, info->enemy.road_len);
 		info->enemy.x = info->enemy.road[info->enemy.moves].x;
 		info->enemy.y = info->enemy.road[info->enemy.moves].y;
-		mlx_put_image_to_window(info->mlx, info->win, info->enemy.img, info->enemy.x * 32, info->enemy.y * 32);
 		mlx_put_image_to_window(info->mlx, info->win, info->floor, info->enemy.road[info->enemy.moves - 1].x * 32, info->enemy.road[info->enemy.moves - 1].y * 32);
+		mlx_put_image_to_window(info->mlx, info->win, info->enemy.img, info->enemy.road[info->enemy.moves].x * 32, info->enemy.road[info->enemy.moves].y * 32);
 		info->enemy.moves++;
 		free(info->enemy.road);
 		if (info->enemy.x == info->hero.x / 32 && info->enemy.y == info->hero.y / 32)
