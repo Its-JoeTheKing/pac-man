@@ -6,7 +6,7 @@
 /*   By: aerrfig <aerrfig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 16:48:33 by aerrfig           #+#    #+#             */
-/*   Updated: 2024/02/14 10:58:27 by aerrfig          ###   ########.fr       */
+/*   Updated: 2024/02/18 15:33:35 by aerrfig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,5 +102,5 @@ int	floodmap(char **map, t_point player, t_point size, t_point enemy)
 	init_val(map, player, size, val++);
 	while (check_is_surrounded(map, enemy, size) == 0)
 		init_val_2(map, size, val++);
-	return (val + 48);
+	return (val);
 }

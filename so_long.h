@@ -6,7 +6,7 @@
 /*   By: aerrfig <aerrfig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 15:17:49 by aerrfig           #+#    #+#             */
-/*   Updated: 2024/02/13 17:34:05 by aerrfig          ###   ########.fr       */
+/*   Updated: 2024/02/18 15:14:09 by aerrfig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,6 @@ void	check_map(t_info *infs);
 void	aff_map(char **map, t_point size);
 char	*ft_strdup(const char *s1);
 int		floodmap(char **map, t_point player, t_point size, t_point enemy);
-t_point	*get_road(char **map, t_point size, t_point pos, int val);
+t_point	*get_road(char **map, t_point size, t_point pos, int vals);
 
 #endif

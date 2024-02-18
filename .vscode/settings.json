@@ -14,6 +14,7 @@
 		"string_view": "c",
 		"unordered_map": "c",
 		"utility": "c",
-		"vector": "c"
+		"vector": "c",
+		"stdio.h": "c"
 	}
 }
