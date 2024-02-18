@@ -6,7 +6,7 @@
 /*   By: aerrfig <aerrfig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 15:17:40 by aerrfig           #+#    #+#             */
-/*   Updated: 2024/02/18 15:48:40 by aerrfig          ###   ########.fr       */
+/*   Updated: 2024/02/18 16:16:24 by aerrfig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,19 +106,20 @@ void	draw_map(t_info *ifs)
 		while (++j < ifs->map.width)
 		{
 			if (ifs->map.map[i][j] == '1')
-				mlx_put_image_to_window(ifs->mlx, ifs->win, ifs->wall, j*32, i*32);
+				mlx_put_image_to_window(ifs->mlx, ifs->win, ifs->wall, j * 32, i * 32);
 			if (ifs->map.map[i][j] == '0')
-				mlx_put_image_to_window(ifs->mlx, ifs->win, ifs->floor, j*32, i*32);
+				mlx_put_image_to_window(ifs->mlx, ifs->win, ifs->floor, j * 32, i * 32);
 			if (ifs->map.map[i][j] == 'C')
 			{
-				mlx_put_image_to_window(ifs->mlx, ifs->win, ifs->collect, j*32, i*32);
+				mlx_put_image_to_window(ifs->mlx, ifs->win, ifs->floor, j * 32, i * 32);
+				mlx_put_image_to_window(ifs->mlx, ifs->win, ifs->collect, j * 32, i * 32);
 				ifs->collectible++;
 			}
 			if (ifs->map.map[i][j] == 'E')
 			{
-				ifs->door_pos.x = j*32;
-				ifs->door_pos.y = i*32;
-				mlx_put_image_to_window(ifs->mlx, ifs->win, ifs->door, j*32, i*32);
+				ifs->door_pos.x = j * 32;
+				ifs->door_pos.y = i * 32;
+				mlx_put_image_to_window(ifs->mlx, ifs->win, ifs->door, j * 32, i * 32);
 			}
 		}
 	}
@@ -147,6 +148,7 @@ int	replay(t_info *info)
 		t_point s_enemy;
 		s_enemy.x = info->enemy.x;
 		s_enemy.y = info->enemy.y;
+		draw_map(info);
 		info->enemy.road = get_road(info->enemy.map.map, size, s_enemy, info->enemy.road_len);
 		info->enemy.x = info->enemy.road[info->enemy.moves].x;
 		info->enemy.y = info->enemy.road[info->enemy.moves].y;
