@@ -6,7 +6,7 @@
 /*   By: aerrfig <aerrfig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 15:17:40 by aerrfig           #+#    #+#             */
-/*   Updated: 2024/02/18 15:44:59 by aerrfig          ###   ########.fr       */
+/*   Updated: 2024/02/18 15:48:40 by aerrfig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,8 @@ int	replay(t_info *info)
 		info->enemy.y = info->enemy.road[info->enemy.moves].y;
 		mlx_put_image_to_window(info->mlx, info->win, info->floor, info->enemy.road[info->enemy.moves - 1].x * 32, info->enemy.road[info->enemy.moves - 1].y * 32);
 		mlx_put_image_to_window(info->mlx, info->win, info->enemy.img, info->enemy.road[info->enemy.moves].x * 32, info->enemy.road[info->enemy.moves].y * 32);
-		info->enemy.moves++;
+		if (info->enemy.moves < info->enemy.road_len - 1)
+			info->enemy.moves++;
 		free(info->enemy.road);
 		if (info->enemy.x == info->hero.x / 32 && info->enemy.y == info->hero.y / 32)
 		{
