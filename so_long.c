@@ -6,7 +6,7 @@
 /*   By: aerrfig <aerrfig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 15:17:40 by aerrfig           #+#    #+#             */
-/*   Updated: 2024/02/18 16:16:24 by aerrfig          ###   ########.fr       */
+/*   Updated: 2024/02/19 11:16:04 by aerrfig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,21 +105,17 @@ void	draw_map(t_info *ifs)
 		j = -1;
 		while (++j < ifs->map.width)
 		{
+			if (ifs->map.map[i][j] != 'P')
+				mlx_put_image_to_window(ifs->mlx, ifs->win, ifs->floor, j * 32, i * 32);
 			if (ifs->map.map[i][j] == '1')
 				mlx_put_image_to_window(ifs->mlx, ifs->win, ifs->wall, j * 32, i * 32);
-			if (ifs->map.map[i][j] == '0')
-				mlx_put_image_to_window(ifs->mlx, ifs->win, ifs->floor, j * 32, i * 32);
 			if (ifs->map.map[i][j] == 'C')
-			{
-				mlx_put_image_to_window(ifs->mlx, ifs->win, ifs->floor, j * 32, i * 32);
 				mlx_put_image_to_window(ifs->mlx, ifs->win, ifs->collect, j * 32, i * 32);
-				ifs->collectible++;
-			}
 			if (ifs->map.map[i][j] == 'E')
 			{
-				ifs->door_pos.x = j * 32;
-				ifs->door_pos.y = i * 32;
 				mlx_put_image_to_window(ifs->mlx, ifs->win, ifs->door, j * 32, i * 32);
+				if (ifs->collected == ifs->collectible)
+					mlx_put_image_to_window(ifs->mlx, ifs->win, ifs->door_op, j * 32, i * 32);
 			}
 		}
 	}
@@ -129,7 +125,7 @@ int	replay(t_info *info)
 {
 	static int door_opened = 0;
 	static size_t i = 0;
-	if (i == 2500)
+	if (i == 3500)
 	{
 		info->hero.anime += 1;
 		if (info->hero.anime == 5)
@@ -192,8 +188,14 @@ void	get_player_pos(t_info *infos)
 			{
 				infos->hero.x = j * 32;
 				infos->hero.y = i * 32;
-				return ;
 			}
+			if (infos->map.map[i][j] == 'E')
+			{
+				infos->door_pos.x = j * 32;
+				infos->door_pos.y = i * 32;
+			}
+			if (infos->map.map[i][j] == 'C')
+				infos->collectible++;
 			j++;
 		}
 		i++;
