@@ -6,7 +6,7 @@
 /*   By: aerrfig <aerrfig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 15:17:40 by aerrfig           #+#    #+#             */
-/*   Updated: 2024/02/19 11:16:04 by aerrfig          ###   ########.fr       */
+/*   Updated: 2024/02/19 12:12:54 by aerrfig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,15 @@ void	enemy_map_destroy(t_info *infos)
 		free(infos->enemy.map.map[i]);
 	free(infos->enemy.map.map);
 }
+
+void	exit_game(t_info *infos)
+{
+	enemy_map_destroy(infos);
+	mlx_destroy_window(infos->mlx, infos->win);
+	system("leaks so_long");
+	exit (0);
+}
+
 int	move(int key, t_info *infos)
 {
 	if (key == 2 || key == 1 || key == 13 || key == 0)
@@ -86,12 +95,7 @@ int	move(int key, t_info *infos)
 	if (key == 13 && infos->map.map[infos->hero.y / 32 - 1][infos->hero.x / 32] != '1')
 		put_img_top(infos, 0);
 	if (key == 53)
-	{
-		enemy_map_destroy(infos);
-		mlx_destroy_window(infos->mlx, infos->win);
-		system("leaks so_long");
-		exit (0);
-	}
+		exit_game(infos);
 	return (0);
 }
 
@@ -162,15 +166,9 @@ int	replay(t_info *info)
 	}
 	i++;
 	if (info->collected == info->collectible && !door_opened)
-	{
-		mlx_put_image_to_window(info->mlx, info->win, info->door_op, info->door_pos.x, info->door_pos.y);
 		door_opened = 1;
-	}
 	if (info->collected == info->collectible && info->hero.x == info->door_pos.x && info->hero.y == info->door_pos.y)
-	{
-		mlx_destroy_window(info->mlx, info->win);
-		exit (0);
-	}
+		exit_game(info);
 	return (0);
 }
 
@@ -207,8 +205,8 @@ void	mapp_checker(t_info *infos, char *file)
 	int	fd;
 
 	fd = open(file, O_RDONLY);
-	if (fd <= 0)
-		exit(0);
+	if (fd <= 0 || read(fd, 0, 0) < 0)
+		exit(-1);
 	get_map(infos, fd);
 	if (!infos->map.valid)
 		return ;
@@ -229,7 +227,7 @@ int	main(int argc, char **argv)
 	int		fd;
 
 	if (argc != 2)
-		return (0);
+		return (-1);
 	mapp_checker(&infos, argv[1]);
 	if (!infos.map.valid)
 		return (0);
