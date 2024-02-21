@@ -6,7 +6,7 @@
 /*   By: aerrfig <aerrfig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 15:17:40 by aerrfig           #+#    #+#             */
-/*   Updated: 2024/02/19 12:12:54 by aerrfig          ###   ########.fr       */
+/*   Updated: 2024/02/21 12:16:15 by aerrfig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ int	move(int key, t_info *infos)
 {
 	if (key == 2 || key == 1 || key == 13 || key == 0)
 	{
-		animation_manage(infos);
 		t_point s_enemy;
 		s_enemy.x = infos->enemy.x;
 		s_enemy.y = infos->enemy.y;
