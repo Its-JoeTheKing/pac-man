@@ -6,11 +6,12 @@
 /*   By: aerrfig <aerrfig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 15:17:40 by aerrfig           #+#    #+#             */
-/*   Updated: 2024/02/21 12:16:15 by aerrfig          ###   ########.fr       */
+/*   Updated: 2024/02/21 18:32:28 by aerrfig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+
 void	xpm_to_img(t_info *infos)
 {
 	int	height;
@@ -128,7 +129,7 @@ int	replay(t_info *info)
 {
 	static int door_opened = 0;
 	static size_t i = 0;
-	if (i == 3500)
+	if (i == 3000)
 	{
 		info->hero.anime += 1;
 		if (info->hero.anime == 5)
@@ -153,14 +154,14 @@ int	replay(t_info *info)
 		info->enemy.y = info->enemy.road[info->enemy.moves].y;
 		mlx_put_image_to_window(info->mlx, info->win, info->floor, info->enemy.road[info->enemy.moves - 1].x * 32, info->enemy.road[info->enemy.moves - 1].y * 32);
 		mlx_put_image_to_window(info->mlx, info->win, info->enemy.img, info->enemy.road[info->enemy.moves].x * 32, info->enemy.road[info->enemy.moves].y * 32);
-		if (info->enemy.moves < info->enemy.road_len - 1)
+		if (info->enemy.moves < info->enemy.road_len)
 			info->enemy.moves++;
-		free(info->enemy.road);
 		if (info->enemy.x == info->hero.x / 32 && info->enemy.y == info->hero.y / 32)
 		{
 			mlx_destroy_window(info->mlx, info->win);
 			exit (0);
 		}
+		free(info->enemy.road);
 		i = 0;
 	}
 	i++;
@@ -229,7 +230,7 @@ int	main(int argc, char **argv)
 		return (-1);
 	mapp_checker(&infos, argv[1]);
 	if (!infos.map.valid)
-		return (0);
+		exit (-1);
 	infos.mlx = mlx_init();
 	infos.hero.pos = 'r';
 	infos.hero.anime = 0;
