@@ -6,7 +6,7 @@
 /*   By: aerrfig <aerrfig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 13:43:02 by aerrfig           #+#    #+#             */
-/*   Updated: 2024/02/24 13:49:36 by aerrfig          ###   ########.fr       */
+/*   Updated: 2024/02/24 14:09:01 by aerrfig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,14 @@ void	exit_game(t_info *infos)
 	enemy_map_destroy(infos);
 	mlx_destroy_window(infos->mlx, infos->win);
 	exit (0);
+}
+
+int	is_wall(t_info *infos, int x, int y)
+{
+	x /= 32;
+	y /= 32;
+	if (infos->map.map[y][x] == '1' || (infos->map.map[y][x] == 'E' &&
+		infos->collected != infos->collectible))
+		return (1);
+	return (0);
 }

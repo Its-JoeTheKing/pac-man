@@ -6,14 +6,20 @@
 /*   By: aerrfig <aerrfig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 15:17:49 by aerrfig           #+#    #+#             */
-/*   Updated: 2024/02/24 13:49:59 by aerrfig          ###   ########.fr       */
+/*   Updated: 2024/02/24 14:06:04 by aerrfig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
-#define	SO_LONG_H
+# define SO_LONG_H
 
-typedef	struct s_point
+# include "ff/get_next_line.h"
+# include <unistd.h>
+# include <stdlib.h>
+# include <stdio.h>
+# include <mlx.h>
+
+typedef struct s_point
 {
 	int		x;
 	int		y;
@@ -24,9 +30,9 @@ typedef struct s_map
 	char	**map;
 	t_point	size;
 	char	valid;
-} t_map;
+}	t_map;
 
-typedef	struct s_hero
+typedef struct s_hero
 {
 	void	*img;
 	t_point	pos;
@@ -43,9 +49,9 @@ typedef struct s_enemy
 	int		road_len;
 	t_point	pos;
 	int		anime;
-} t_enemy;
+}	t_enemy;
 
-typedef	struct s_info
+typedef struct s_info
 {
 	void	*mlx;
 	void	*win;
@@ -65,12 +71,6 @@ typedef	struct s_info
 	t_map	map;
 }	t_info;
 
-#include "ff/get_next_line.h"
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <mlx.h>
-
 void	put_img_right(t_info *infos, int isIdle);
 void	put_img_left(t_info *infos, int isIdle);
 void	put_img_top(t_info *infos, int isIdle);
@@ -89,5 +89,6 @@ void	get_player_pos(t_info *infos);
 void	xpm_to_img(t_info *infos);
 void	img_win(void *mlx, void	*win, void *img, t_point pos);
 void	exit_game(t_info *infos);
+int		is_wall(t_info *infos, int x, int y);
 
 #endif

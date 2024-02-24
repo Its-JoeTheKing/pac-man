@@ -6,7 +6,7 @@
 /*   By: aerrfig <aerrfig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 16:48:33 by aerrfig           #+#    #+#             */
-/*   Updated: 2024/02/24 11:20:25 by aerrfig          ###   ########.fr       */
+/*   Updated: 2024/02/24 14:09:31 by aerrfig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	init_val_2(char **map, t_point size, int val)
 
 int	floodmap(char **map, t_point player, t_point size, t_point enemy)
 {
-	int	val;
+	int		val;
 	t_point	player_pos;
 
 	player_pos.x = player.x / 32;

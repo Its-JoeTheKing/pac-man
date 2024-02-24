@@ -6,7 +6,7 @@
 /*   By: aerrfig <aerrfig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 15:17:40 by aerrfig           #+#    #+#             */
-/*   Updated: 2024/02/24 13:49:40 by aerrfig          ###   ########.fr       */
+/*   Updated: 2024/02/24 14:04:03 by aerrfig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,13 @@ int	move(int key, t_info *infos)
 				infos->map.size, infos->enemy.pos);
 		infos->enemy.moves = 2;
 	}
-	if (key == 2 && infos->map.map[infos->hero.pos.y / 32][infos->hero.pos.x
-		/ 32 + 1] != '1')
+	if (key == 2 && !is_wall(infos, infos->hero.pos.x + 32, infos->hero.pos.y))
 		put_img_right(infos, 0);
-	if (key == 0 && infos->map.map[infos->hero.pos.y / 32][infos->hero.pos.x
-		/ 32 - 1] != '1')
+	if (key == 0 && !is_wall(infos, infos->hero.pos.x - 32, infos->hero.pos.y))
 		put_img_left(infos, 0);
-	if (key == 1 && infos->map.map[infos->hero.pos.y / 32 + 1][infos->hero.pos.x
-		/ 32] != '1')
+	if (key == 1 && !is_wall(infos, infos->hero.pos.x, infos->hero.pos.y + 32))
 		put_img_bottom(infos, 0);
-	if (key == 13 && infos->map.map[infos->hero.pos.y / 32 - 1]
-		[infos->hero.pos.x / 32] != '1')
+	if (key == 13 && !is_wall(infos, infos->hero.pos.x, infos->hero.pos.y - 32))
 		put_img_top(infos, 0);
 	if (key == 53)
 		exit_game(infos);
