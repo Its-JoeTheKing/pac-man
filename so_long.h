@@ -6,7 +6,7 @@
 /*   By: aerrfig <aerrfig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 15:17:49 by aerrfig           #+#    #+#             */
-/*   Updated: 2024/02/21 18:29:39 by aerrfig          ###   ########.fr       */
+/*   Updated: 2024/02/24 11:24:01 by aerrfig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,20 @@ typedef	struct s_point
 	int		x;
 	int		y;
 }	t_point;
+
 typedef struct s_map
 {
 	char	**map;
-	int		height;
-	int		width;
+	t_point	size;
 	char	valid;
 } t_map;
 
 typedef	struct s_hero
 {
 	void	*img;
-	int		x;
-	int		y;
+	t_point	pos;
 	int		anime;
-	char	pos;
+	char	posi;
 }	t_hero;
 
 typedef struct s_enemy
@@ -42,8 +41,7 @@ typedef struct s_enemy
 	t_point	*road;
 	int		moves;
 	int		road_len;
-	int		x;
-	int		y;
+	t_point	pos;
 	int		anime;
 } t_enemy;
 

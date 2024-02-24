@@ -6,7 +6,7 @@
 /*   By: aerrfig <aerrfig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 10:59:02 by aerrfig           #+#    #+#             */
-/*   Updated: 2024/02/18 14:09:57 by aerrfig          ###   ########.fr       */
+/*   Updated: 2024/02/24 11:26:30 by aerrfig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,22 +29,22 @@ void	map_infos_valid(int fd, t_info *infs)
 
 	i = 1;
 	tmp = get_next_line(fd);
-	infs->map.width = ft_strlen(tmp);
-	if (infs->map.width != check_wall(tmp) + 1)
+	infs->map.size.x = ft_strlen(tmp);
+	if (infs->map.size.x != check_wall(tmp) + 1)
 		infs->map.valid = 0;
 	free(tmp);
-	while (ft_strlen(tmp) == infs->map.width)
+	while (ft_strlen(tmp) == infs->map.size.x)
 	{
-		if (tmp[infs->map.width - 2] != '1' || tmp[0] != '1')
+		if (tmp[infs->map.size.x - 2] != '1' || tmp[0] != '1')
 			infs->map.valid = 0;
 		tmp = get_next_line(fd);
 		free(tmp);
 		i++;
 	}
-	if ((ft_strlen(tmp) != infs->map.width - 1)
-		|| (check_wall(tmp) != infs->map.width - 1))
+	if ((ft_strlen(tmp) != infs->map.size.x - 1)
+		|| (check_wall(tmp) != infs->map.size.x - 1))
 		infs->map.valid = 0;
-	infs->map.height = i;
+	infs->map.size.y = i;
 }
 
 int	map_to_array(int fd, t_info *infs)
@@ -52,10 +52,10 @@ int	map_to_array(int fd, t_info *infs)
 	int	i;
 
 	i = 0;
-	infs->map.map = malloc((infs->map.height + 1) * sizeof(char *));
+	infs->map.map = malloc((infs->map.size.y + 1) * sizeof(char *));
 	if (!(infs->map.map))
 		return (0);
-	while (i < infs->map.height)
+	while (i < infs->map.size.y)
 	{
 		infs->map.map[i] = get_next_line(fd);
 		i++;
@@ -87,10 +87,10 @@ void	check_map(t_info *infs)
 	c = 0;
 	e = 0;
 	p = 0;
-	while (++i < infs->map.height)
+	while (++i < infs->map.size.y)
 	{
 		j = -1;
-		while (++j < infs->map.width)
+		while (++j < infs->map.size.x)
 		{
 			if (infs->map.map[i][j] == 'C')
 				c++;
