@@ -115,3 +115,18 @@ void	put_img_bottom(t_info *infos, int isIdle)
 	mlx_put_image_to_window(infos->mlx, infos->win, infos->floor, infos->hero.pos.x, infos->hero.pos.y - (32 * !isIdle));
 	mlx_put_image_to_window(infos->mlx, infos->win, infos->hero.img, infos->hero.pos.x, infos->hero.pos.y);
 }
+
+void	animation_manage(t_info *infos)
+{
+	infos->hero.anime += 1;
+	if (infos->hero.anime == 5)
+		infos->hero.anime = 0;
+	if (infos->hero.posi == 'r')
+		put_img_right(infos, 1);
+	if (infos->hero.posi == 'l')
+		put_img_left(infos, 1);
+	if (infos->hero.posi == 't')
+		put_img_top(infos, 1);
+	if (infos->hero.posi == 'b')
+		put_img_bottom(infos, 1);
+}

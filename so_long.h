@@ -6,7 +6,7 @@
 /*   By: aerrfig <aerrfig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 15:17:49 by aerrfig           #+#    #+#             */
-/*   Updated: 2024/02/24 11:24:01 by aerrfig          ###   ########.fr       */
+/*   Updated: 2024/02/24 13:49:59 by aerrfig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ typedef	struct s_info
 #include "ff/get_next_line.h"
 #include <unistd.h>
 #include <stdlib.h>
-#include <unistd.h>
 #include <stdio.h>
 #include <mlx.h>
 
@@ -80,9 +79,15 @@ void	animation_manage(t_info *infos);
 int		get_map(t_info *map, int fd);
 int		map_to_array(int fd, t_info *infs);
 void	check_map(t_info *infs);
-void	aff_map(char **map, t_point size);
 char	*ft_strdup(const char *s1);
 int		floodmap(char **map, t_point player, t_point size, t_point enemy);
 t_point	*get_road(char **map, t_point size, t_point pos, int vals);
+void	animation_manage(t_info *infos);
+void	enemy_map(t_info *infos);
+void	enemy_map_destroy(t_info *infos);
+void	get_player_pos(t_info *infos);
+void	xpm_to_img(t_info *infos);
+void	img_win(void *mlx, void	*win, void *img, t_point pos);
+void	exit_game(t_info *infos);
 
 #endif

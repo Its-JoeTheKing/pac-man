@@ -6,7 +6,7 @@
 /*   By: aerrfig <aerrfig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 15:17:12 by aerrfig           #+#    #+#             */
-/*   Updated: 2024/02/21 18:06:37 by aerrfig          ###   ########.fr       */
+/*   Updated: 2024/02/24 13:43:57 by aerrfig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,43 @@ t_point	*get_road(char **map, t_point size, t_point pos, int val)
 	road[i + 1].x = 0;
 	road[i + 1].y = 0;
 	return (road);
+}
+
+void	enemy_map(t_info *infos)
+{
+	int	i;
+	int	j;
+
+	i = -1;
+	if (!infos->enemy.map.map)
+	{
+		infos->enemy.map.map = malloc(sizeof(char *) * infos->map.size.y);
+		if (!infos->enemy.map.map)
+			exit (-1);
+		while (++i < infos->map.size.y)
+			infos->enemy.map.map[i] = (char *)malloc(infos->map.size.x + 1);
+	}
+	while (++i < infos->map.size.y)
+	{
+		j = -1;
+		while (++j < infos->map.size.x)
+		{
+			infos->enemy.map.map[i][j] = infos->map.map[i][j];
+			if (infos->map.map[i][j] == '1')
+				infos->enemy.map.map[i][j] = 'W';
+			if (infos->map.map[i][j] == 'C')
+				infos->enemy.map.map[i][j] = '0';
+		}
+		infos->enemy.map.map[i][j] = 0;
+	}
+}
+
+void	enemy_map_destroy(t_info *infos)
+{
+	int	i;
+
+	i = -1;
+	while (++i < infos->map.size.y)
+		free(infos->enemy.map.map[i]);
+	free(infos->enemy.map.map);
 }
