@@ -6,7 +6,7 @@
 /*   By: aerrfig <aerrfig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 15:17:40 by aerrfig           #+#    #+#             */
-/*   Updated: 2024/02/24 11:28:05 by aerrfig          ###   ########.fr       */
+/*   Updated: 2024/02/24 11:48:20 by aerrfig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,33 @@ void	xpm_to_img(t_info *infos)
 	int	height;
 	int	width;
 
-	infos->hero.img = mlx_xpm_file_to_image(infos->mlx, "./assets/pacs/pac_man_0.xpm", &width, &height);
-	infos->floor = mlx_xpm_file_to_image(infos->mlx, "./assets/floor.xpm", &width, &height);
-	infos->wall = mlx_xpm_file_to_image(infos->mlx, "./assets/wall.xpm", &width, &height);
-	infos->collect = mlx_xpm_file_to_image(infos->mlx, "./assets/coin.xpm", &width, &height);
-	infos->door = mlx_xpm_file_to_image(infos->mlx, "./assets/door.xpm", &width, &height);
-	infos->door_op = mlx_xpm_file_to_image(infos->mlx, "./assets/doorop.xpm", &width, &height);
-	infos->enemy.img = mlx_xpm_file_to_image(infos->mlx, "./assets/ghost/ghost.xpm", &width, &height);
+	infos->hero.img = mlx_xpm_file_to_image(infos->mlx,
+			"./assets/pacs/pac_man_0.xpm", &width, &height);
+	infos->floor = mlx_xpm_file_to_image(infos->mlx,
+			"./assets/floor.xpm", &width, &height);
+	infos->wall = mlx_xpm_file_to_image(infos->mlx,
+			"./assets/wall.xpm", &width, &height);
+	infos->collect = mlx_xpm_file_to_image(infos->mlx,
+			"./assets/coin.xpm", &width, &height);
+	infos->door = mlx_xpm_file_to_image(infos->mlx,
+			"./assets/door.xpm", &width, &height);
+	infos->door_op = mlx_xpm_file_to_image(infos->mlx,
+			"./assets/doorop.xpm", &width, &height);
+	infos->enemy.img = mlx_xpm_file_to_image(infos->mlx,
+			"./assets/ghost/ghost.xpm", &width, &height);
 }
 
 void	enemy_map(t_info *infos)
 {
-	int i = -1;
-	int j = 0;
+	int	i;
+	int	j;
 
+	i = -1;
 	if (!infos->enemy.map.map)
 	{
-		infos->enemy.map.map = (char **)malloc(sizeof(char *) * infos->map.size.y);
+		infos->enemy.map.map = malloc(sizeof(char *) * infos->map.size.y);
+		if (!infos->enemy.map.map)
+			exit (-1);
 		while (++i < infos->map.size.y)
 			infos->enemy.map.map[i] = (char *)malloc(infos->map.size.x + 1);
 	}
@@ -43,9 +53,9 @@ void	enemy_map(t_info *infos)
 		while (++j < infos->map.size.x)
 		{
 			infos->enemy.map.map[i][j] = infos->map.map[i][j];
-			if(infos->map.map[i][j] == '1')
+			if (infos->map.map[i][j] == '1')
 				infos->enemy.map.map[i][j] = 'W';
-			if(infos->map.map[i][j] == 'C')
+			if (infos->map.map[i][j] == 'C')
 				infos->enemy.map.map[i][j] = '0';
 		}
 		infos->enemy.map.map[i][j] = 0;
@@ -54,8 +64,9 @@ void	enemy_map(t_info *infos)
 
 void	enemy_map_destroy(t_info *infos)
 {
-	int i = -1;
+	int i;
 
+	i = -1;
 	while (++i < infos->map.size.y)
 		free(infos->enemy.map.map[i]);
 	free(infos->enemy.map.map);
@@ -65,7 +76,6 @@ void	exit_game(t_info *infos)
 {
 	enemy_map_destroy(infos);
 	mlx_destroy_window(infos->mlx, infos->win);
-	system("leaks so_long");
 	exit (0);
 }
 
@@ -138,13 +148,10 @@ int	replay(t_info *info)
 		info->enemy.pos.x = info->enemy.road[info->enemy.moves].x;
 		info->enemy.pos.y = info->enemy.road[info->enemy.moves].y;
 		mlx_put_image_to_window(info->mlx, info->win, info->enemy.img, info->enemy.road[info->enemy.moves].x * 32, info->enemy.road[info->enemy.moves].y * 32);
-		if (info->enemy.moves < info->enemy.road_len)
-			info->enemy.moves++;
-		if (info->enemy.pos.x == info->hero.pos.x / 32 && info->enemy.pos.y == info->hero.pos.y / 32)
-		{
-			mlx_destroy_window(info->mlx, info->win);
-			exit (0);
-		}
+		info->enemy.moves++;
+		if (info->enemy.moves - 2 == info->enemy.road_len)
+			exit_game(info);
+		printf("%d-%d\n", info->enemy.road_len, info->enemy.moves);
 		free(info->enemy.road);
 		i = 0;
 	}
@@ -221,11 +228,13 @@ int	main(int argc, char **argv)
 	infos.enemy.pos.x = 1;
 	infos.enemy.pos.y = 1;
 	xpm_to_img(&infos);
-	infos.win = mlx_new_window(infos.mlx, (infos.map.size.x - 1) * 32, infos.map.size.y * 32, "so_long");
+	infos.win = mlx_new_window(infos.mlx, (infos.map.size.x - 1) * 32,
+			infos.map.size.y * 32, "so_long");
 	draw_map(&infos);
 	mlx_put_image_to_window(infos.mlx, infos.win, infos.enemy.img, 32, 32);
 	enemy_map(&infos);
-	infos.enemy.road_len = floodmap(infos.enemy.map.map, infos.hero.pos, infos.map.size, infos.enemy.pos);
+	infos.enemy.road_len = floodmap(infos.enemy.map.map,
+			infos.hero.pos, infos.map.size, infos.enemy.pos);
 	infos.enemy.moves = 0;
 	mlx_hook(infos.win, 2, 0, move, &infos);
 	mlx_loop_hook(infos.mlx, replay, &infos);
