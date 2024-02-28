@@ -16,6 +16,7 @@
 		"utility": "c",
 		"vector": "c",
 		"stdio.h": "c",
-		"stdlib.h": "c"
+		"stdlib.h": "c",
+		"ios": "c"
 	}
 }

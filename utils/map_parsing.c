@@ -6,7 +6,7 @@
 /*   By: aerrfig <aerrfig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 10:59:02 by aerrfig           #+#    #+#             */
-/*   Updated: 2024/02/24 11:26:30 by aerrfig          ###   ########.fr       */
+/*   Updated: 2024/02/27 16:02:16 by aerrfig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	map_to_array(int fd, t_info *infs)
 	i = 0;
 	infs->map.map = malloc((infs->map.size.y + 1) * sizeof(char *));
 	if (!(infs->map.map))
-		return (0);
+		exit (-1);
 	while (i < infs->map.size.y)
 	{
 		infs->map.map[i] = get_next_line(fd);

@@ -6,7 +6,7 @@
 /*   By: aerrfig <aerrfig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 15:17:12 by aerrfig           #+#    #+#             */
-/*   Updated: 2024/02/24 13:43:57 by aerrfig          ###   ########.fr       */
+/*   Updated: 2024/02/27 17:11:07 by aerrfig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ t_point	*get_road(char **map, t_point size, t_point pos, int val)
 
 	i = 0;
 	road = (t_point *)malloc(sizeof(t_point) * (val + 2));
+	if (!road)
+		exit(-1);
 	road[i] = pos;
 	while (val > 0)
 	{

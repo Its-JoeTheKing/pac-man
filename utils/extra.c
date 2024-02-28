@@ -6,7 +6,7 @@
 /*   By: aerrfig <aerrfig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 13:43:02 by aerrfig           #+#    #+#             */
-/*   Updated: 2024/02/24 14:09:01 by aerrfig          ###   ########.fr       */
+/*   Updated: 2024/02/28 14:55:52 by aerrfig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,10 @@ void	xpm_to_img(t_info *infos)
 	int	height;
 	int	width;
 
+	config_movs_left(infos);
+	config_movs_right(infos);
+	config_movs_top(infos);
+	config_movs_bottom(infos);
 	infos->hero.img = mlx_xpm_file_to_image(infos->mlx,
 			"./assets/pacs/pac_man_0.xpm", &width, &height);
 	infos->floor = mlx_xpm_file_to_image(infos->mlx,

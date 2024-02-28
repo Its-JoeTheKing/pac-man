@@ -6,7 +6,7 @@
 /*   By: aerrfig <aerrfig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 15:17:40 by aerrfig           #+#    #+#             */
-/*   Updated: 2024/02/24 14:04:03 by aerrfig          ###   ########.fr       */
+/*   Updated: 2024/02/27 17:09:50 by aerrfig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,15 +65,15 @@ int	replay(t_info *info)
 	static int		door_opened = 0;
 	static size_t	i = 0;
 
-	if (i == 3000)
+	if (i == 2500)
 	{
 		animation_manage(info);
 		draw_map(info);
 		info->enemy.road = get_road(info->enemy.map.map, info->map.size,
 				info->enemy.pos, info->enemy.road_len);
-		info->enemy.pos.x = info->enemy.road[info->enemy.moves].x;
-		info->enemy.pos.y = info->enemy.road[info->enemy.moves].y;
-		img_win(info->mlx, info->win, info->enemy.img, info->enemy.road[info->enemy.moves]);
+		info->enemy.pos = info->enemy.road[info->enemy.moves];
+		img_win(info->mlx, info->win, info->enemy.img,
+			info->enemy.road[info->enemy.moves]);
 		info->enemy.moves++;
 		if (info->enemy.moves - 2 == info->enemy.road_len)
 			exit_game(info);
