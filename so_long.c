@@ -6,7 +6,7 @@
 /*   By: aerrfig <aerrfig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 15:17:40 by aerrfig           #+#    #+#             */
-/*   Updated: 2024/02/27 17:09:50 by aerrfig          ###   ########.fr       */
+/*   Updated: 2024/02/28 15:06:53 by aerrfig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,18 +116,18 @@ int	main(int argc, char **argv)
 	int		fd;
 
 	if (argc != 2)
-		return (-1);
-	mapp_checker(&infos, argv[1]);
-	if (!infos.map.valid)
 		exit (-1);
+	mapp_checker(&infos, argv[1]);
 	infos.mlx = mlx_init();
+	if (!infos.map.valid || !infos.mlx)
+		exit (-1);
 	infos.hero.posi = 'r';
 	infos.hero.anime = 0;
 	infos.enemy.pos.x = 1;
 	infos.enemy.pos.y = 1;
-	xpm_to_img(&infos);
 	infos.win = mlx_new_window(infos.mlx, (infos.map.size.x - 1) * 32,
 			infos.map.size.y * 32, "so_long");
+	xpm_to_img(&infos);
 	draw_map(&infos);
 	mlx_put_image_to_window(infos.mlx, infos.win, infos.enemy.img, 32, 32);
 	enemy_map(&infos);

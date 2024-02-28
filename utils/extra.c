@@ -6,7 +6,7 @@
 /*   By: aerrfig <aerrfig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 13:43:02 by aerrfig           #+#    #+#             */
-/*   Updated: 2024/02/28 14:55:52 by aerrfig          ###   ########.fr       */
+/*   Updated: 2024/02/28 15:07:12 by aerrfig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ void	xpm_to_img(t_info *infos)
 	int	height;
 	int	width;
 
+	if (!infos->win)
+		exit(-1);
 	config_movs_left(infos);
 	config_movs_right(infos);
 	config_movs_top(infos);
