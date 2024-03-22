@@ -6,11 +6,11 @@
 /*   By: aerrfig <aerrfig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 13:43:02 by aerrfig           #+#    #+#             */
-/*   Updated: 2024/03/21 13:40:26 by aerrfig          ###   ########.fr       */
+/*   Updated: 2024/03/21 13:40:17 by aerrfig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "so_long_bonus.h"
 
 void	get_player_pos(t_info *infos)
 {
@@ -48,7 +48,10 @@ void	xpm_to_img(t_info *infos)
 
 	if (!infos->win)
 		exit_game(infos, -3);
-	config_movs(infos);
+	config_movs_left(infos);
+	config_movs_right(infos);
+	config_movs_top(infos);
+	config_movs_bottom(infos);
 	infos->hero.img = mlx_xpm_file_to_image(infos->mlx,
 			"./textures/pacs/pac_man_0.xpm", &width, &height);
 	infos->floor = mlx_xpm_file_to_image(infos->mlx,

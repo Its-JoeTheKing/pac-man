@@ -6,11 +6,11 @@
 /*   By: aerrfig <aerrfig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 10:59:02 by aerrfig           #+#    #+#             */
-/*   Updated: 2024/03/22 13:53:24 by aerrfig          ###   ########.fr       */
+/*   Updated: 2024/03/22 15:24:02 by aerrfig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "so_long_bonus.h"
 
 int	check_wall(char *str)
 {
@@ -109,4 +109,16 @@ void	check_map(t_info *infs)
 	}
 	if (c < 1 || e != 1 || p != 1)
 		exit_game(infs, -1);
+}
+
+void	allocate_enemy_map(t_info *infos)
+{
+	int	i;
+
+	i = -1;
+	infos->enemy.map.map = malloc(sizeof(char *) * infos->map.size.y);
+	if (!infos->enemy.map.map)
+		exit (-1);
+	while (++i < infos->map.size.y)
+		infos->enemy.map.map[i] = (char *)malloc(infos->map.size.x + 1);
 }
