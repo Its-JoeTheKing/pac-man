@@ -6,7 +6,7 @@
 /*   By: aerrfig <aerrfig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 17:08:46 by aerrfig           #+#    #+#             */
-/*   Updated: 2024/03/20 16:02:36 by aerrfig          ###   ########.fr       */
+/*   Updated: 2024/03/25 15:52:22 by aerrfig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,6 @@ void	destroy_maps(t_info *infos)
 		while (++i < infos->map.size.y)
 			free(infos->map.map[i]);
 		free(infos->map.map);
-	}
-	if (infos->enemy.map.map)
-	{
-		i = -1;
-		while (++i < infos->map.size.y)
-			free(infos->enemy.map.map[i]);
-		free(infos->enemy.map.map);
 	}
 	if (infos->tmp_map.map)
 	{

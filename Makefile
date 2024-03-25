@@ -11,7 +11,7 @@ bonus_utils = so_long_bonus.c utils_bonus/map_parsing.c utils_bonus/path_tracing
 utils_objs = ${utils:.c=.o}
 bonus_utils_objs = ${bonus_utils:.c=.o}
 
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror
 FLAGS = -lmlx -framework OpenGL -framework AppKit
 
 name = so_long
