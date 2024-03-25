@@ -6,7 +6,7 @@
 /*   By: aerrfig <aerrfig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 15:17:49 by aerrfig           #+#    #+#             */
-/*   Updated: 2024/03/22 12:26:16 by aerrfig          ###   ########.fr       */
+/*   Updated: 2024/03/25 16:48:39 by aerrfig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # include <fcntl.h>
 # include <stdlib.h>
 # include <mlx.h>
-# include <stdio.h>
 
 typedef struct s_point
 {

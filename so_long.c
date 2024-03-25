@@ -6,7 +6,7 @@
 /*   By: aerrfig <aerrfig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 15:17:40 by aerrfig           #+#    #+#             */
-/*   Updated: 2024/03/25 15:55:18 by aerrfig          ###   ########.fr       */
+/*   Updated: 2024/03/25 16:48:24 by aerrfig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ int	replay(t_info *info)
 {
 	static int		door_opened = 0;
 
-	printf("%d-%d\n\n", info->collected,info->collectible);
 	if (info->collected == info->collectible && !door_opened)
 	{
 		door_opened = 1;

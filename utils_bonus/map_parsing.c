@@ -6,7 +6,7 @@
 /*   By: aerrfig <aerrfig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 10:59:02 by aerrfig           #+#    #+#             */
-/*   Updated: 2024/03/22 15:24:02 by aerrfig          ###   ########.fr       */
+/*   Updated: 2024/03/25 16:49:34 by aerrfig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ int	check_first_line(int fd, t_info *infs)
 
 	stat = 0;
 	tmp = get_next_line(fd);
-	infs->map.valid = ft_strlen(tmp) > 0;
-	if (!tmp)
+	infs->map.valid = check_wall(tmp) > 0;
+	if (!tmp || !infs->map.valid)
 		return (0);
 	infs->map.size.x = ft_strlen(tmp);
 	stat = (infs->map.size.x == check_wall(tmp) + 1);
